@@ -30,7 +30,6 @@ export const App = () => {
     setRandomWord(randomWord);
     clearInputs(randomWord);
     console.log("randomWord: ", randomWord);
-    return randomWord;
   };
   useEffect(() => {
     getRandomWord();
@@ -59,7 +58,12 @@ export const App = () => {
       <button type="button" onClick={getRandomWord}>
         Get Random Word
       </button>
-      <AlphabetKeys alphaBet={alphaBet} lives={lives} setLives={setLives} />
+      <AlphabetKeys
+        alphaBet={alphaBet}
+        lives={lives}
+        setLives={setLives}
+        inputs={inputs}
+      />
       <HiddenWord randomWord={randomWord} inputs={inputs} />
       <Hangman pictures={pictures} />
     </>
