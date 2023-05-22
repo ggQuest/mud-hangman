@@ -63,6 +63,8 @@ export const App = () => {
         lives={lives}
         setLives={setLives}
         inputs={inputs}
+        setInputs={setInputs}
+        randomWord={randomWord}
       />
       <HiddenWord randomWord={randomWord} inputs={inputs} />
       <Hangman pictures={pictures} />
