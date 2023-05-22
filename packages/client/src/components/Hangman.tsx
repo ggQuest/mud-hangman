@@ -10,11 +10,13 @@ export const Hangman: React.FC<HangmanProps> = ({ lives }) => {
   );
 
   return (
-    <div>
-      <p>Hangman</p>
-      <div>
-        <img src={pictures[lives]} alt="hangman" />
-      </div>
+    <div className="flex flex-col  items-center">
+      <img
+        className="my-5 rounded-md shadow-lg"
+        width={"500 px"}
+        src={pictures[lives]}
+        alt="hangman"
+      />
     </div>
   );
 };

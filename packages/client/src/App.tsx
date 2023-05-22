@@ -7,12 +7,12 @@ import { AlphabetKeys } from "./components/AlphabetKeys";
 import { Hangman } from "./components/Hangman";
 
 export const App = () => {
-  const {
-    components: { Counter },
-    systemCalls: { increment },
-    network: { singletonEntity },
-  } = useMUD();
-  const counter = useComponentValue(Counter, singletonEntity);
+  // const {
+  //   components: { Counter },
+  //   systemCalls: { increment },
+  //   network: { singletonEntity },
+  // } = useMUD();
+  // const counter = useComponentValue(Counter, singletonEntity);
 
   const alphaBet = [...Array(26)].map(
     (ele, i) => (ele = String.fromCharCode(i + 97))
@@ -43,7 +43,7 @@ export const App = () => {
 
   return (
     <>
-      <div>
+      {/* <div>
         Counter: <span>{counter?.value ?? "??"}</span>
       </div>
       <button
@@ -54,21 +54,31 @@ export const App = () => {
         }}
       >
         Increment
-      </button>
-      <button className="btn btn-primary mx-5" onClick={getRandomWord}>
-        Get Random Word
-      </button>
-      <AlphabetKeys
-        key={resetKey}
-        alphaBet={alphaBet}
-        lives={lives}
-        setLives={setLives}
-        inputs={inputs}
-        setInputs={setInputs}
-        randomWord={randomWord}
-      />
-      <HiddenWord randomWord={randomWord} inputs={inputs} />
-      <Hangman lives={lives} />
+      </button> */}
+
+      <div className="hero min-h-screen bg-base-200">
+        <div className="hero-content text-center">
+          <div className="max-w-md">
+            <button
+              className="btn btn-primary m-5 shadow-lg"
+              onClick={getRandomWord}
+            >
+              Get Random Word
+            </button>
+            <AlphabetKeys
+              key={resetKey}
+              alphaBet={alphaBet}
+              lives={lives}
+              setLives={setLives}
+              inputs={inputs}
+              setInputs={setInputs}
+              randomWord={randomWord}
+            />
+            <HiddenWord randomWord={randomWord} inputs={inputs} />
+            <Hangman lives={lives} />
+          </div>
+        </div>
+      </div>
     </>
   );
 };

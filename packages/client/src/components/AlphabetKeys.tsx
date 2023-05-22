@@ -20,20 +20,17 @@ export const AlphabetKeys: React.FC<AlphabetKeysProps> = ({
 }) => {
   return (
     <div>
-      <p className="">Alphabet Keys</p>
-      <div>
-        {alphaBet.map((letter, index) => (
-          <OneKey
-            key={index}
-            letter={letter}
-            lives={lives}
-            setLives={setLives}
-            inputs={inputs}
-            setInputs={setInputs}
-            randomWord={randomWord}
-          />
-        ))}
-      </div>
+      {alphaBet.map((letter, index) => (
+        <OneKey
+          key={index}
+          letter={letter}
+          lives={lives}
+          setLives={setLives}
+          inputs={inputs}
+          setInputs={setInputs}
+          randomWord={randomWord}
+        />
+      ))}
     </div>
   );
 };

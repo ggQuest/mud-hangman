@@ -48,7 +48,7 @@ export const OneKey: React.FC<OneKeyProps> = ({
   return (
     <span>
       <button
-        className="btn btn-outline btn-primary btn-sm mx-1 "
+        className="btn btn-outline btn-primary btn-sm m-1 font-bold shadow-lg"
         style={{ backgroundColor: keyColor }}
         onClick={handleClick}
       >
