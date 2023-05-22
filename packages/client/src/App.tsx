@@ -17,6 +17,9 @@ export const App = () => {
   const alphaBet = [...Array(26)].map(
     (ele, i) => (ele = String.fromCharCode(i + 97))
   );
+  const pictures = [...Array(7)].map(
+    (ele, i) => (ele = "./images/hangman" + i + ".jpg")
+  );
   const [randomWord, setRandomWord] = useState([""]);
   const [inputs, setInputs] = useState([""]);
   const [lives, setLives] = useState(0);
@@ -52,9 +55,9 @@ export const App = () => {
       <button type="button" onClick={getRandomWord}>
         Get Random Word
       </button>
-      <AlphabetKeys />
+      <AlphabetKeys alphaBet={alphaBet} />
       <HiddenWord randomWord={randomWord} inputs={inputs} />
-      <Hangman />
+      <Hangman pictures={pictures} />
     </>
   );
 };

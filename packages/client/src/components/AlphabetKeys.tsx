@@ -1,15 +1,17 @@
 import React from "react";
+import { OneKey } from "./OneKey";
 
-export const AlphabetKeys: React.FC = () => {
-  const alphaBet = [...Array(26)].map(
-    (ele, i) => (ele = String.fromCharCode(i + 97))
-  );
+interface AlphabetKeysProps {
+  alphaBet: string[];
+}
+
+export const AlphabetKeys: React.FC<AlphabetKeysProps> = ({ alphaBet }) => {
   return (
     <div>
       <p>Alphabet Keys</p>
       <div>
         {alphaBet.map((letter, index) => (
-          <button key={index}>{letter}</button>
+          <OneKey key={index} letter={letter} />
         ))}
       </div>
     </div>

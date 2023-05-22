@@ -1,9 +1,10 @@
 import React from "react";
 
-export const Hangman: React.FC = () => {
-  const pictures = [...Array(7)].map(
-    (ele, i) => (ele = "./images/hangman" + i + ".jpg")
-  );
+interface HangmanProps {
+  pictures: string[];
+}
+
+export const Hangman: React.FC<HangmanProps> = ({ pictures }) => {
   return (
     <div>
       <h3>Hangman</h3>
