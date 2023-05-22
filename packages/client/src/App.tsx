@@ -55,7 +55,7 @@ export const App = () => {
       <button type="button" onClick={getRandomWord}>
         Get Random Word
       </button>
-      <AlphabetKeys alphaBet={alphaBet} />
+      <AlphabetKeys alphaBet={alphaBet} lives={lives} setLives={setLives} />
       <HiddenWord randomWord={randomWord} inputs={inputs} />
       <Hangman pictures={pictures} />
     </>
