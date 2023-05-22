@@ -23,6 +23,7 @@ export const OneKey: React.FC<OneKeyProps> = ({
   setscore,
 }) => {
   const [keyColor, setKeyColor] = useState("white");
+  const [letterColor, setLetterColor] = useState("");
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
 
@@ -38,7 +39,7 @@ export const OneKey: React.FC<OneKeyProps> = ({
           }
         });
         //set the key color yellow
-        setKeyColor("yellow");
+        setKeyColor("green");
         setInputs(newInputs);
       } else {
         //set the key color red
@@ -47,13 +48,14 @@ export const OneKey: React.FC<OneKeyProps> = ({
         console.log("lives: ", lives);
       }
     }
+    setLetterColor("white");
   };
 
   return (
     <span>
       <button
         className="btn btn-outline btn-primary btn-sm m-1 font-bold shadow-lg"
-        style={{ backgroundColor: keyColor }}
+        style={{ backgroundColor: keyColor, color: letterColor }}
         onClick={handleClick}
       >
         {letter}
