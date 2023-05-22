@@ -19,6 +19,7 @@ export const App = () => {
   );
   const [randomWord, setRandomWord] = useState([""]);
   const [inputs, setInputs] = useState([""]);
+  const [lives, setLives] = useState(0);
 
   const getRandomWord = () => {
     const randomIndex = Math.floor(Math.random() * blockchainWords.length);
