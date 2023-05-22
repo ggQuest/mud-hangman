@@ -2,6 +2,9 @@ import { useComponentValue } from "@latticexyz/react";
 import { useMUD } from "./MUDContext";
 import { blockchainWords } from "./blockchainWords.json";
 import { useState } from "react";
+import { HiddenWord } from "./components/HiddenWord";
+import { AlphabetKeys } from "./components/AlphabetKeys";
+import { Hangman } from "./components/Hangman";
 
 export const App = () => {
   const {
@@ -11,9 +14,6 @@ export const App = () => {
   } = useMUD();
   const counter = useComponentValue(Counter, singletonEntity);
 
-  const pictures = [...Array(7)].map(
-    (ele, i) => (ele = "./images/hangman" + i + ".jpg")
-  );
   const alphaBet = [...Array(26)].map(
     (ele, i) => (ele = String.fromCharCode(i + 97))
   );
@@ -51,6 +51,9 @@ export const App = () => {
       <button type="button" onClick={getRandomWord}>
         Get Random Word
       </button>
+      <AlphabetKeys />
+      <HiddenWord randomWord={randomWord} inputs={inputs} />
+      <Hangman />
     </>
   );
 };
