@@ -11,7 +11,7 @@ export const Hangman: React.FC<HangmanProps> = ({ lives }) => {
 
   return (
     <div>
-      <h3>Hangman</h3>
+      <p>Hangman</p>
       <div>
         <img src={pictures[lives]} alt="hangman" />
       </div>

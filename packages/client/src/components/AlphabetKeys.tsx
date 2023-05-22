@@ -20,7 +20,7 @@ export const AlphabetKeys: React.FC<AlphabetKeysProps> = ({
 }) => {
   return (
     <div>
-      <p>Alphabet Keys</p>
+      <p className="">Alphabet Keys</p>
       <div>
         {alphaBet.map((letter, index) => (
           <OneKey

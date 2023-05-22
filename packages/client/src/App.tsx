@@ -55,7 +55,7 @@ export const App = () => {
       >
         Increment
       </button>
-      <button type="button" onClick={getRandomWord}>
+      <button className="btn btn-primary mx-5" onClick={getRandomWord}>
         Get Random Word
       </button>
       <AlphabetKeys
