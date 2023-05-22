@@ -25,7 +25,7 @@ export const App = () => {
 
   const getRandomWord = () => {
     const randomIndex = Math.floor(Math.random() * blockchainWords.length);
-    const randomWord = blockchainWords[randomIndex].split("");
+    const randomWord = blockchainWords[randomIndex].toLowerCase().split("");
     setRandomWord(randomWord);
     clearInputs(randomWord);
     setResetKey(resetKey + 1);
