@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { HiddenWord } from "./components/HiddenWord";
 import { AlphabetKeys } from "./components/AlphabetKeys";
 import { Hangman } from "./components/Hangman";
+import { Navbar } from "./components/Navbar";
 
 export const App = () => {
   // const {
@@ -22,6 +23,7 @@ export const App = () => {
   const [inputs, setInputs] = useState([""]);
   const [lives, setLives] = useState(0);
   const [resetKey, setResetKey] = useState(0);
+  const [score, setScore] = useState(0);
 
   const getRandomWord = () => {
     const randomIndex = Math.floor(Math.random() * blockchainWords.length);
@@ -55,27 +57,31 @@ export const App = () => {
       >
         Increment
       </button> */}
-
-      <div className="hero min-h-screen bg-base-200">
-        <div className="hero-content text-center">
-          <div className="max-w-md">
-            <button
-              className="btn btn-primary m-5 shadow-lg"
-              onClick={getRandomWord}
-            >
-              Get Random Word
-            </button>
-            <AlphabetKeys
-              key={resetKey}
-              alphaBet={alphaBet}
-              lives={lives}
-              setLives={setLives}
-              inputs={inputs}
-              setInputs={setInputs}
-              randomWord={randomWord}
-            />
-            <HiddenWord randomWord={randomWord} inputs={inputs} />
-            <Hangman lives={lives} />
+      <div className="h-screen overflow-hidden">
+        <Navbar score={score} />
+        <div className="hero h-screen bg-base-200 ">
+          <div className="hero-content text-center p-0">
+            <div className="max-w-md">
+              <button
+                className="btn btn-primary mb-5 shadow-lg"
+                onClick={getRandomWord}
+              >
+                New Word
+              </button>
+              <AlphabetKeys
+                key={resetKey}
+                alphaBet={alphaBet}
+                lives={lives}
+                setLives={setLives}
+                inputs={inputs}
+                setInputs={setInputs}
+                randomWord={randomWord}
+                setScore={setScore}
+                getRandomWord={getRandomWord}
+              />
+              <HiddenWord randomWord={randomWord} inputs={inputs} />
+              <Hangman lives={lives} />
+            </div>
           </div>
         </div>
       </div>

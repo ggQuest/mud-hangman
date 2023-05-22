@@ -8,6 +8,8 @@ interface OneKeyProps {
   inputs: string[];
   setInputs: React.Dispatch<React.SetStateAction<string[]>>;
   randomWord: string[];
+  getrandomWord: () => void;
+  setscore: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export const OneKey: React.FC<OneKeyProps> = ({
@@ -17,6 +19,8 @@ export const OneKey: React.FC<OneKeyProps> = ({
   inputs,
   setInputs,
   randomWord,
+  getrandomWord,
+  setscore,
 }) => {
   const [keyColor, setKeyColor] = useState("white");
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
