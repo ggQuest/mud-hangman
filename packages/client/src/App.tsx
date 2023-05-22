@@ -1,6 +1,7 @@
 import { useComponentValue } from "@latticexyz/react";
 import { useMUD } from "./MUDContext";
 import { blockchainWords } from "./blockchainWords.json";
+import { useState } from "react";
 
 export const App = () => {
   const {
@@ -10,12 +11,25 @@ export const App = () => {
   } = useMUD();
   const counter = useComponentValue(Counter, singletonEntity);
 
-  const randomWord = () => {
+  const alphaBet = [...Array(26)].map(
+    (ele, i) => (ele = String.fromCharCode(i + 97))
+  );
+  const [randomWord, setRandomWord] = useState([""]);
+  const [inputs, setInputs] = useState([""]);
+
+  const getRandomWord = () => {
     const randomIndex = Math.floor(Math.random() * blockchainWords.length);
-    return blockchainWords[randomIndex].split("");
+    const randomWord = blockchainWords[randomIndex].split("");
+    setRandomWord(randomWord);
+    clearInputs(randomWord);
+    console.log("randomWord: ", randomWord);
   };
 
-  console.log("randomWord: ", randomWord());
+  const clearInputs = (randomWord) => {
+    const inputs = [...Array(randomWord.length).fill(" _ ")];
+    setInputs(inputs);
+    console.log("inputs: ", inputs);
+  };
 
   return (
     <>
@@ -30,6 +44,9 @@ export const App = () => {
         }}
       >
         Increment
+      </button>
+      <button type="button" onClick={getRandomWord}>
+        Get Random Word
       </button>
     </>
   );
