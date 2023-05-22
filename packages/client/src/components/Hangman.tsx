@@ -5,7 +5,7 @@ interface HangmanProps {
 }
 
 export const Hangman: React.FC<HangmanProps> = ({ lives }) => {
-  const pictures = [...Array(7)].map(
+  const pictures = [...Array(8)].map(
     (ele, i) => (ele = "/images/hangman" + i + ".jpg")
   );
 
