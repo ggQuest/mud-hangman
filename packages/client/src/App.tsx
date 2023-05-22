@@ -1,7 +1,7 @@
 import { useComponentValue } from "@latticexyz/react";
 import { useMUD } from "./MUDContext";
 import { blockchainWords } from "./blockchainWords.json";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { HiddenWord } from "./components/HiddenWord";
 import { AlphabetKeys } from "./components/AlphabetKeys";
 import { Hangman } from "./components/Hangman";
@@ -30,7 +30,11 @@ export const App = () => {
     setRandomWord(randomWord);
     clearInputs(randomWord);
     console.log("randomWord: ", randomWord);
+    return randomWord;
   };
+  useEffect(() => {
+    getRandomWord();
+  }, []);
 
   const clearInputs = (randomWord: string[]) => {
     const inputs = [...Array(randomWord.length).fill(" _ ")];
