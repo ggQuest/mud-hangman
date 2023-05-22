@@ -23,6 +23,7 @@ export const App = () => {
   const [randomWord, setRandomWord] = useState([""]);
   const [inputs, setInputs] = useState([""]);
   const [lives, setLives] = useState(0);
+  const [keyColor, setKeyColor] = useState("white");
 
   const getRandomWord = () => {
     const randomIndex = Math.floor(Math.random() * blockchainWords.length);
@@ -65,6 +66,8 @@ export const App = () => {
         inputs={inputs}
         setInputs={setInputs}
         randomWord={randomWord}
+        keyColor={keyColor}
+        setKeyColor={setKeyColor}
       />
       <HiddenWord randomWord={randomWord} inputs={inputs} />
       <Hangman pictures={pictures} />

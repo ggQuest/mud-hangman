@@ -8,6 +8,8 @@ interface OneKeyProps {
   inputs: string[];
   setInputs: React.Dispatch<React.SetStateAction<string[]>>;
   randomWord: string[];
+  keyColor: string;
+  setKeyColor: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export const OneKey: React.FC<OneKeyProps> = ({
@@ -17,8 +19,9 @@ export const OneKey: React.FC<OneKeyProps> = ({
   inputs,
   setInputs,
   randomWord,
+  keyColor,
+  setKeyColor,
 }) => {
-  const [keyColor, setKeyColor] = useState("white");
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     console.log("randomWord: ", randomWord);
@@ -36,11 +39,11 @@ export const OneKey: React.FC<OneKeyProps> = ({
           }
         });
         //set the key color yellow
-
+        setKeyColor("yellow");
         setInputs(newInputs);
       } else {
         //set the key color red
-
+        setKeyColor("red");
         setLives(lives + 1);
       }
     }
@@ -48,7 +51,9 @@ export const OneKey: React.FC<OneKeyProps> = ({
 
   return (
     <span>
-      <button onClick={handleClick}>{letter}</button>
+      <button style={{ backgroundColor: keyColor }} onClick={handleClick}>
+        {letter}
+      </button>
     </span>
   );
 };

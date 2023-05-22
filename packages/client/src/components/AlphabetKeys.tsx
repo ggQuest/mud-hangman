@@ -8,6 +8,8 @@ interface AlphabetKeysProps {
   inputs: string[];
   setInputs: React.Dispatch<React.SetStateAction<string[]>>;
   randomWord: string[];
+  keyColor: string;
+  setKeyColor: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export const AlphabetKeys: React.FC<AlphabetKeysProps> = ({
@@ -17,6 +19,8 @@ export const AlphabetKeys: React.FC<AlphabetKeysProps> = ({
   inputs,
   setInputs,
   randomWord,
+  keyColor,
+  setKeyColor,
 }) => {
   return (
     <div>
@@ -31,6 +35,8 @@ export const AlphabetKeys: React.FC<AlphabetKeysProps> = ({
             inputs={inputs}
             setInputs={setInputs}
             randomWord={randomWord}
+            keyColor={keyColor}
+            setKeyColor={setKeyColor}
           />
         ))}
       </div>
