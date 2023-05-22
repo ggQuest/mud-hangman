@@ -11,6 +11,9 @@ export const App = () => {
   } = useMUD();
   const counter = useComponentValue(Counter, singletonEntity);
 
+  const pictures = [...Array(7)].map(
+    (ele, i) => (ele = "./images/hangman" + i + ".jpg")
+  );
   const alphaBet = [...Array(26)].map(
     (ele, i) => (ele = String.fromCharCode(i + 97))
   );
@@ -25,7 +28,7 @@ export const App = () => {
     console.log("randomWord: ", randomWord);
   };
 
-  const clearInputs = (randomWord) => {
+  const clearInputs = (randomWord: string[]) => {
     const inputs = [...Array(randomWord.length).fill(" _ ")];
     setInputs(inputs);
     console.log("inputs: ", inputs);
