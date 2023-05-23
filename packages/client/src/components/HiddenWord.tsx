@@ -11,10 +11,10 @@ export const HiddenWord: React.FC<HiddenWordProps> = ({
 }) => {
   return (
     <div>
-      <p>HiddenWord:</p>
-      <div>
+      <p className=" text-xl my-5 font-medium">Guess the word 😉</p>
+      <div className="text-5xl font-extrabold">
         {inputs.map((input, index) => (
-          <span key={index}>{input}</span>
+          <span key={index}>{input.toUpperCase()}</span>
         ))}
       </div>
     </div>
