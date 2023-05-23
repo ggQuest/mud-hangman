@@ -26,6 +26,7 @@ export const App = () => {
   const [resetKey, setResetKey] = useState(0);
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(false);
+  const [isExploding, setIsExploding] = useState(false);
 
   const newGame = () => {
     getRandomWord();
@@ -74,7 +75,7 @@ export const App = () => {
         Increment
       </button> */}
       <div className="h-screen overflow-hidden">
-        <Navbar score={score} lives={lives} />
+        <Navbar score={score} lives={lives} isExploding={isExploding} />
         <div className="hero h-screen bg-base-200 py-2">
           <div className="hero-content text-center p-0">
             <div className="max-w-md">
@@ -84,6 +85,7 @@ export const App = () => {
               >
                 New Game
               </button>
+
               <GameOverModal gameOver={gameOver} newGame={newGame} />
               <AlphabetKeys
                 key={resetKey}
@@ -95,6 +97,7 @@ export const App = () => {
                 randomWord={randomWord}
                 setScore={setScore}
                 getRandomWord={getRandomWord}
+                setIsExploding={setIsExploding}
               />
               <HiddenWord randomWord={randomWord} inputs={inputs} />
               <Hangman lives={lives} />

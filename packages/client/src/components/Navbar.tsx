@@ -1,12 +1,18 @@
 import React from "react";
 import { useEffect } from "react";
+import ConfettiExplosion from "react-confetti-explosion";
 
 interface NavbarProps {
   score: number;
   lives: number;
+  isExploding: boolean;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ score, lives }) => {
+export const Navbar: React.FC<NavbarProps> = ({
+  score,
+  lives,
+  isExploding,
+}) => {
   let displayLives = 7 - lives;
 
   useEffect(() => {
@@ -28,6 +34,7 @@ export const Navbar: React.FC<NavbarProps> = ({ score, lives }) => {
             </li>
             <li>
               <a className=" font-bold text-xl">score: {score}</a>
+              {isExploding && <ConfettiExplosion />}
             </li>
           </ul>
         </div>

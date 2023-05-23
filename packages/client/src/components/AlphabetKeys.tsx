@@ -10,6 +10,7 @@ interface AlphabetKeysProps {
   randomWord: string[];
   getRandomWord: () => void;
   setScore: React.Dispatch<React.SetStateAction<number>>;
+  setIsExploding: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const AlphabetKeys: React.FC<AlphabetKeysProps> = ({
@@ -21,6 +22,7 @@ export const AlphabetKeys: React.FC<AlphabetKeysProps> = ({
   randomWord,
   getRandomWord,
   setScore,
+  setIsExploding,
 }) => {
   return (
     <div>
@@ -35,6 +37,7 @@ export const AlphabetKeys: React.FC<AlphabetKeysProps> = ({
           randomWord={randomWord}
           getRandomWord={getRandomWord}
           setScore={setScore}
+          setIsExploding={setIsExploding}
         />
       ))}
     </div>

@@ -10,6 +10,7 @@ interface OneKeyProps {
   randomWord: string[];
   getRandomWord: () => void;
   setScore: React.Dispatch<React.SetStateAction<number>>;
+  setIsExploding: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const OneKey: React.FC<OneKeyProps> = ({
@@ -21,12 +22,14 @@ export const OneKey: React.FC<OneKeyProps> = ({
   randomWord,
   getRandomWord,
   setScore,
+  setIsExploding,
 }) => {
   const [isClicked, setIsClicked] = useState(false);
   const [isCorrectGuess, setIsCorrectGuess] = useState(false);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
+    setIsExploding(false);
     if (inputs.some((input) => input === " _ ") && lives < 7 && !isClicked) {
       setIsClicked(true);
       if (randomWord.some((randomLetter) => randomLetter === letter)) {
@@ -41,7 +44,7 @@ export const OneKey: React.FC<OneKeyProps> = ({
 
         setInputs(newInputs);
         if (!newInputs.includes(" _ ")) {
-          //call function guessWord
+          setIsExploding(true);
           setScore((score) => score + 1);
           getRandomWord();
         }
