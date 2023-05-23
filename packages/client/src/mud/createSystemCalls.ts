@@ -39,7 +39,7 @@ export function createSystemCalls(
   }
   
   const getKnownLetters = async () => {
-    //const tx = await worldSend("getUsedLetters", []);
+    const tx = await worldSend("getKnownLetters", []);
     //return tx.;
   }
 

@@ -2,6 +2,7 @@ import { useEntityQuery } from "@latticexyz/react";
 import { Has, getComponentValueStrict } from "@latticexyz/recs";
 import { useEffect, useState } from "react";
 import { useMUD } from "./MUDContext";
+import { blockchainWords } from "./blockchainWords.json";
 import { AlphabetKeys } from "./components/AlphabetKeys";
 import { GameOverModal } from "./components/GameOverModal";
 import { HangmanComponent } from "./components/Hangman";
@@ -24,7 +25,7 @@ export const App = () => {
   
   const [gameId, setGameId] = useState("");
   const [randomWord, setRandomWord] = useState([""]);
-  const [inputs, setInputs] = useState([""]);
+  const [inputs, setInputs] = useState([" "]);
   const [lives, setLives] = useState(0);
   const [maxLives, setMaxLives] = useState(0);
   const [resetKey, setResetKey] = useState(0);
@@ -74,10 +75,12 @@ export const App = () => {
       setSolution(stringValue);
       setSolutionLength(stringValue.length);
       setMaxLives(hangmanData.maxAttempts);
+      const inputStart: string[] = Array(solutionLength).fill("_ ");
+      setInputs(inputStart);
     } catch (error) {
         console.log("error is "+ error);
     }
-  }, [hangmanIds, Hangman])
+  }, [hangmanIds, Hangman, solutionLength])
 
   // it only gets fetched once
   //TODO; fetch the current score for the user
@@ -87,7 +90,11 @@ export const App = () => {
 
   //Todo: FETCH CURRRENTattempts
   useEffect(() => {
-    getCurrentAttempts().then((resp) => setLives(maxLives - (resp as unknown as number) ))
+    getCurrentAttempts().then((resp) => {
+      const current = resp as unknown as number;
+      console.log('lives is '+current );
+      setLives(maxLives - current)
+    })
   }, [getCurrentAttempts, maxLives])
 
   /*  
@@ -110,9 +117,9 @@ export const App = () => {
   */
 
   const getRandomWord = () => {
-    //const randomIndex = Math.floor(Math.random() * blockchainWords.length);
-    //const randomWord = blockchainWords[randomIndex].toLowerCase().split("");
-    const randomWord = ["blockchain"];
+    const randomIndex = Math.floor(Math.random() * blockchainWords.length);
+    const randomWord = blockchainWords[randomIndex].toLowerCase().split("");
+    //const randomWord = ["blockchain"];
     setRandomWord(randomWord);
     clearInputs(randomWord);
     setResetKey(resetKey + 1);
@@ -130,23 +137,12 @@ export const App = () => {
     setInputs(inputs);
   };
   console.log('SOLUTION IS : '+ solution);
+  console.log('lives IS : '+ solution);
 
   console.log('SOLUTION LENGTH IS : '+ solutionLength);
   
   return (
     <>
-      {/* <div>
-        Counter: <span>{counter?.value ?? "??"}</span>
-      </div>
-      <button
-        type="button"
-        onClick={async (event) => {
-          event.preventDefault();
-          console.log("new counter value:", await increment());
-        }}
-      >
-        Increment
-      </button> */}
       <div className="h-screen overflow-hidden">
         <Navbar score={score} lives={lives} />
         <div className="hero h-screen bg-base-200 ">

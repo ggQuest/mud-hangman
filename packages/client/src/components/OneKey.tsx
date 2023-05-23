@@ -27,7 +27,7 @@ export const OneKey: React.FC<OneKeyProps> = ({
   const [isCorrectGuess, setIsCorrectGuess] = useState(false);
 
   const {
-    systemCalls: { setGame, getCurrentAttempts, guessLetter},
+    systemCalls: { getKnownLetters, guessLetter},
     components: {Hangman}
   } = useMUD();
   
@@ -58,7 +58,7 @@ export const OneKey: React.FC<OneKeyProps> = ({
     }
   };
 
-  const handleGuessLetter = async(e: Event) => {
+  const handleGuessLetter = async (e: Event) => {
     try {
       e.preventDefault();
       setIsClicked(true);
@@ -66,14 +66,26 @@ export const OneKey: React.FC<OneKeyProps> = ({
       const positionsNumber = await guessLetter(letter);
       if(positionsNumber as unknown as number == 0) {
         setIsCorrectGuess(false);
-
       }else{
         setIsCorrectGuess(true);
+        // get the known letters from player
+        try {
+          const newLetters = await getKnownLetters();
+          const newLettersInputs = (newLetters as unknown as string[]).map((value) => {
+            if(value === undefined || value === "" || value === null) {
+              return "";
+            }else{
+              return value;
+            }
+          })
+          setInputs(newLettersInputs);
+        } catch (error) {
+          console.error(error);
+        }
       }
     } catch (error) {
       console.error(error);
     }
-   
   }
 
   let buttonClass =

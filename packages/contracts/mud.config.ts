@@ -23,7 +23,8 @@ export default mudConfig({
         value1: "bool"
       },
       keySchema: {
-        key1: "bytes1",
+        key1: "bytes32",
+        key2: "bytes1",
       }
     },
     KnownLetters: {
@@ -31,7 +32,8 @@ export default mudConfig({
         value1: "bytes1"
       },
       keySchema: {
-        key1: "uint32",
+        key1: "bytes32", //gameId
+        key2: "uint32"
       },
     },
   },

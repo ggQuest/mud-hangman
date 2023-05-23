@@ -30,8 +30,9 @@ library KnownLetters {
   }
 
   function getKeySchema() internal pure returns (Schema) {
-    SchemaType[] memory _schema = new SchemaType[](1);
-    _schema[0] = SchemaType.UINT32;
+    SchemaType[] memory _schema = new SchemaType[](2);
+    _schema[0] = SchemaType.BYTES32;
+    _schema[1] = SchemaType.UINT32;
 
     return SchemaLib.encode(_schema);
   }
@@ -66,35 +67,39 @@ library KnownLetters {
   }
 
   /** Get value1 */
-  function get(uint32 key1) internal view returns (bytes1 value1) {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = bytes32(uint256((key1)));
+  function get(bytes32 key1, uint32 key2) internal view returns (bytes1 value1) {
+    bytes32[] memory _keyTuple = new bytes32[](2);
+    _keyTuple[0] = bytes32((key1));
+    _keyTuple[1] = bytes32(uint256((key2)));
 
     bytes memory _blob = StoreSwitch.getField(_tableId, _keyTuple, 0);
     return (Bytes.slice1(_blob, 0));
   }
 
   /** Get value1 (using the specified store) */
-  function get(IStore _store, uint32 key1) internal view returns (bytes1 value1) {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = bytes32(uint256((key1)));
+  function get(IStore _store, bytes32 key1, uint32 key2) internal view returns (bytes1 value1) {
+    bytes32[] memory _keyTuple = new bytes32[](2);
+    _keyTuple[0] = bytes32((key1));
+    _keyTuple[1] = bytes32(uint256((key2)));
 
     bytes memory _blob = _store.getField(_tableId, _keyTuple, 0);
     return (Bytes.slice1(_blob, 0));
   }
 
   /** Set value1 */
-  function set(uint32 key1, bytes1 value1) internal {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = bytes32(uint256((key1)));
+  function set(bytes32 key1, uint32 key2, bytes1 value1) internal {
+    bytes32[] memory _keyTuple = new bytes32[](2);
+    _keyTuple[0] = bytes32((key1));
+    _keyTuple[1] = bytes32(uint256((key2)));
 
     StoreSwitch.setField(_tableId, _keyTuple, 0, abi.encodePacked((value1)));
   }
 
   /** Set value1 (using the specified store) */
-  function set(IStore _store, uint32 key1, bytes1 value1) internal {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = bytes32(uint256((key1)));
+  function set(IStore _store, bytes32 key1, uint32 key2, bytes1 value1) internal {
+    bytes32[] memory _keyTuple = new bytes32[](2);
+    _keyTuple[0] = bytes32((key1));
+    _keyTuple[1] = bytes32(uint256((key2)));
 
     _store.setField(_tableId, _keyTuple, 0, abi.encodePacked((value1)));
   }
@@ -105,23 +110,26 @@ library KnownLetters {
   }
 
   /** Encode keys as a bytes32 array using this table's schema */
-  function encodeKeyTuple(uint32 key1) internal pure returns (bytes32[] memory _keyTuple) {
-    _keyTuple = new bytes32[](1);
-    _keyTuple[0] = bytes32(uint256((key1)));
+  function encodeKeyTuple(bytes32 key1, uint32 key2) internal pure returns (bytes32[] memory _keyTuple) {
+    _keyTuple = new bytes32[](2);
+    _keyTuple[0] = bytes32((key1));
+    _keyTuple[1] = bytes32(uint256((key2)));
   }
 
   /* Delete all data for given keys */
-  function deleteRecord(uint32 key1) internal {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = bytes32(uint256((key1)));
+  function deleteRecord(bytes32 key1, uint32 key2) internal {
+    bytes32[] memory _keyTuple = new bytes32[](2);
+    _keyTuple[0] = bytes32((key1));
+    _keyTuple[1] = bytes32(uint256((key2)));
 
     StoreSwitch.deleteRecord(_tableId, _keyTuple);
   }
 
   /* Delete all data for given keys (using the specified store) */
-  function deleteRecord(IStore _store, uint32 key1) internal {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = bytes32(uint256((key1)));
+  function deleteRecord(IStore _store, bytes32 key1, uint32 key2) internal {
+    bytes32[] memory _keyTuple = new bytes32[](2);
+    _keyTuple[0] = bytes32((key1));
+    _keyTuple[1] = bytes32(uint256((key2)));
 
     _store.deleteRecord(_tableId, _keyTuple);
   }
