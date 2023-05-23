@@ -8,7 +8,7 @@ interface OneKeyProps {
   inputs: string[];
   setInputs: React.Dispatch<React.SetStateAction<string[]>>;
   randomWord: string[];
-  getrandomWord: () => void;
+  getRandomWord: () => void;
   setScore: React.Dispatch<React.SetStateAction<number>>;
 }
 
@@ -19,7 +19,7 @@ export const OneKey: React.FC<OneKeyProps> = ({
   inputs,
   setInputs,
   randomWord,
-  getrandomWord,
+  getRandomWord,
   setScore,
 }) => {
   const [isClicked, setIsClicked] = useState(false);
@@ -45,7 +45,7 @@ export const OneKey: React.FC<OneKeyProps> = ({
         setInputs(newInputs);
         if (!newInputs.includes(" _ ")) {
           setScore((score) => score + 1);
-          getrandomWord();
+          getRandomWord();
         }
       } else {
         setIsCorrectGuess(false);
