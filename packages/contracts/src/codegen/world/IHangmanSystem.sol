@@ -10,9 +10,11 @@ interface IHangmanSystem {
 
   function guessWord(bytes memory word) external;
 
-  function getKnownLetters() external returns (bytes1[] memory);
-
-  function getUsedLetters() external view returns (bytes1[] memory);
+  function getKnownLetters() external view returns (bytes1[] memory);
 
   function getSolutionLength(bytes32 gameId) external view returns (uint);
+
+  function getCurrentAttempts() external view returns (uint);
+
+  function getCurrentScore() external view returns (uint);
 }

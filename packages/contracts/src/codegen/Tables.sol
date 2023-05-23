@@ -5,7 +5,5 @@ pragma solidity >=0.8.0;
 
 import { Counter, CounterTableId } from "./tables/Counter.sol";
 import { Hangman, HangmanData, HangmanTableId } from "./tables/Hangman.sol";
-import { CurrentAttempts, CurrentAttemptsTableId } from "./tables/CurrentAttempts.sol";
 import { UsedLetters, UsedLettersTableId } from "./tables/UsedLetters.sol";
 import { KnownLetters, KnownLettersTableId } from "./tables/KnownLetters.sol";
-import { Score, ScoreTableId } from "./tables/Score.sol";

@@ -23,10 +23,10 @@ bytes32 constant HangmanTableId = _tableId;
 struct HangmanData {
   bytes32 owner;
   uint32 maxAttempts;
-  bytes solution;
   bytes32 winner;
   uint32 unknown;
   uint32 known;
+  bytes solution;
 }
 
 library Hangman {
@@ -35,10 +35,10 @@ library Hangman {
     SchemaType[] memory _schema = new SchemaType[](6);
     _schema[0] = SchemaType.BYTES32;
     _schema[1] = SchemaType.UINT32;
-    _schema[2] = SchemaType.BYTES;
-    _schema[3] = SchemaType.BYTES32;
+    _schema[2] = SchemaType.BYTES32;
+    _schema[3] = SchemaType.UINT32;
     _schema[4] = SchemaType.UINT32;
-    _schema[5] = SchemaType.UINT32;
+    _schema[5] = SchemaType.BYTES;
 
     return SchemaLib.encode(_schema);
   }
@@ -55,10 +55,10 @@ library Hangman {
     string[] memory _fieldNames = new string[](6);
     _fieldNames[0] = "owner";
     _fieldNames[1] = "maxAttempts";
-    _fieldNames[2] = "solution";
-    _fieldNames[3] = "winner";
-    _fieldNames[4] = "unknown";
-    _fieldNames[5] = "known";
+    _fieldNames[2] = "winner";
+    _fieldNames[3] = "unknown";
+    _fieldNames[4] = "known";
+    _fieldNames[5] = "solution";
     return ("Hangman", _fieldNames);
   }
 
@@ -152,130 +152,12 @@ library Hangman {
     _store.setField(_tableId, _keyTuple, 1, abi.encodePacked((maxAttempts)));
   }
 
-  /** Get solution */
-  function getSolution(bytes32 key) internal view returns (bytes memory solution) {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = bytes32((key));
-
-    bytes memory _blob = StoreSwitch.getField(_tableId, _keyTuple, 2);
-    return (bytes(_blob));
-  }
-
-  /** Get solution (using the specified store) */
-  function getSolution(IStore _store, bytes32 key) internal view returns (bytes memory solution) {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = bytes32((key));
-
-    bytes memory _blob = _store.getField(_tableId, _keyTuple, 2);
-    return (bytes(_blob));
-  }
-
-  /** Set solution */
-  function setSolution(bytes32 key, bytes memory solution) internal {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = bytes32((key));
-
-    StoreSwitch.setField(_tableId, _keyTuple, 2, bytes((solution)));
-  }
-
-  /** Set solution (using the specified store) */
-  function setSolution(IStore _store, bytes32 key, bytes memory solution) internal {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = bytes32((key));
-
-    _store.setField(_tableId, _keyTuple, 2, bytes((solution)));
-  }
-
-  /** Get the length of solution */
-  function lengthSolution(bytes32 key) internal view returns (uint256) {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = bytes32((key));
-
-    uint256 _byteLength = StoreSwitch.getFieldLength(_tableId, _keyTuple, 2, getSchema());
-    return _byteLength / 1;
-  }
-
-  /** Get the length of solution (using the specified store) */
-  function lengthSolution(IStore _store, bytes32 key) internal view returns (uint256) {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = bytes32((key));
-
-    uint256 _byteLength = _store.getFieldLength(_tableId, _keyTuple, 2, getSchema());
-    return _byteLength / 1;
-  }
-
-  /** Get an item of solution (unchecked, returns invalid data if index overflows) */
-  function getItemSolution(bytes32 key, uint256 _index) internal view returns (bytes memory) {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = bytes32((key));
-
-    bytes memory _blob = StoreSwitch.getFieldSlice(_tableId, _keyTuple, 2, getSchema(), _index * 1, (_index + 1) * 1);
-    return (bytes(_blob));
-  }
-
-  /** Get an item of solution (using the specified store) (unchecked, returns invalid data if index overflows) */
-  function getItemSolution(IStore _store, bytes32 key, uint256 _index) internal view returns (bytes memory) {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = bytes32((key));
-
-    bytes memory _blob = _store.getFieldSlice(_tableId, _keyTuple, 2, getSchema(), _index * 1, (_index + 1) * 1);
-    return (bytes(_blob));
-  }
-
-  /** Push a slice to solution */
-  function pushSolution(bytes32 key, bytes memory _slice) internal {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = bytes32((key));
-
-    StoreSwitch.pushToField(_tableId, _keyTuple, 2, bytes((_slice)));
-  }
-
-  /** Push a slice to solution (using the specified store) */
-  function pushSolution(IStore _store, bytes32 key, bytes memory _slice) internal {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = bytes32((key));
-
-    _store.pushToField(_tableId, _keyTuple, 2, bytes((_slice)));
-  }
-
-  /** Pop a slice from solution */
-  function popSolution(bytes32 key) internal {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = bytes32((key));
-
-    StoreSwitch.popFromField(_tableId, _keyTuple, 2, 1);
-  }
-
-  /** Pop a slice from solution (using the specified store) */
-  function popSolution(IStore _store, bytes32 key) internal {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = bytes32((key));
-
-    _store.popFromField(_tableId, _keyTuple, 2, 1);
-  }
-
-  /** Update a slice of solution at `_index` */
-  function updateSolution(bytes32 key, uint256 _index, bytes memory _slice) internal {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = bytes32((key));
-
-    StoreSwitch.updateInField(_tableId, _keyTuple, 2, _index * 1, bytes((_slice)));
-  }
-
-  /** Update a slice of solution (using the specified store) at `_index` */
-  function updateSolution(IStore _store, bytes32 key, uint256 _index, bytes memory _slice) internal {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = bytes32((key));
-
-    _store.updateInField(_tableId, _keyTuple, 2, _index * 1, bytes((_slice)));
-  }
-
   /** Get winner */
   function getWinner(bytes32 key) internal view returns (bytes32 winner) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((key));
 
-    bytes memory _blob = StoreSwitch.getField(_tableId, _keyTuple, 3);
+    bytes memory _blob = StoreSwitch.getField(_tableId, _keyTuple, 2);
     return (Bytes.slice32(_blob, 0));
   }
 
@@ -284,7 +166,7 @@ library Hangman {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((key));
 
-    bytes memory _blob = _store.getField(_tableId, _keyTuple, 3);
+    bytes memory _blob = _store.getField(_tableId, _keyTuple, 2);
     return (Bytes.slice32(_blob, 0));
   }
 
@@ -293,7 +175,7 @@ library Hangman {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((key));
 
-    StoreSwitch.setField(_tableId, _keyTuple, 3, abi.encodePacked((winner)));
+    StoreSwitch.setField(_tableId, _keyTuple, 2, abi.encodePacked((winner)));
   }
 
   /** Set winner (using the specified store) */
@@ -301,7 +183,7 @@ library Hangman {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((key));
 
-    _store.setField(_tableId, _keyTuple, 3, abi.encodePacked((winner)));
+    _store.setField(_tableId, _keyTuple, 2, abi.encodePacked((winner)));
   }
 
   /** Get unknown */
@@ -309,7 +191,7 @@ library Hangman {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((key));
 
-    bytes memory _blob = StoreSwitch.getField(_tableId, _keyTuple, 4);
+    bytes memory _blob = StoreSwitch.getField(_tableId, _keyTuple, 3);
     return (uint32(Bytes.slice4(_blob, 0)));
   }
 
@@ -318,7 +200,7 @@ library Hangman {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((key));
 
-    bytes memory _blob = _store.getField(_tableId, _keyTuple, 4);
+    bytes memory _blob = _store.getField(_tableId, _keyTuple, 3);
     return (uint32(Bytes.slice4(_blob, 0)));
   }
 
@@ -327,7 +209,7 @@ library Hangman {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((key));
 
-    StoreSwitch.setField(_tableId, _keyTuple, 4, abi.encodePacked((unknown)));
+    StoreSwitch.setField(_tableId, _keyTuple, 3, abi.encodePacked((unknown)));
   }
 
   /** Set unknown (using the specified store) */
@@ -335,7 +217,7 @@ library Hangman {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((key));
 
-    _store.setField(_tableId, _keyTuple, 4, abi.encodePacked((unknown)));
+    _store.setField(_tableId, _keyTuple, 3, abi.encodePacked((unknown)));
   }
 
   /** Get known */
@@ -343,7 +225,7 @@ library Hangman {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((key));
 
-    bytes memory _blob = StoreSwitch.getField(_tableId, _keyTuple, 5);
+    bytes memory _blob = StoreSwitch.getField(_tableId, _keyTuple, 4);
     return (uint32(Bytes.slice4(_blob, 0)));
   }
 
@@ -352,7 +234,7 @@ library Hangman {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((key));
 
-    bytes memory _blob = _store.getField(_tableId, _keyTuple, 5);
+    bytes memory _blob = _store.getField(_tableId, _keyTuple, 4);
     return (uint32(Bytes.slice4(_blob, 0)));
   }
 
@@ -361,7 +243,7 @@ library Hangman {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((key));
 
-    StoreSwitch.setField(_tableId, _keyTuple, 5, abi.encodePacked((known)));
+    StoreSwitch.setField(_tableId, _keyTuple, 4, abi.encodePacked((known)));
   }
 
   /** Set known (using the specified store) */
@@ -369,7 +251,125 @@ library Hangman {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((key));
 
-    _store.setField(_tableId, _keyTuple, 5, abi.encodePacked((known)));
+    _store.setField(_tableId, _keyTuple, 4, abi.encodePacked((known)));
+  }
+
+  /** Get solution */
+  function getSolution(bytes32 key) internal view returns (bytes memory solution) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = bytes32((key));
+
+    bytes memory _blob = StoreSwitch.getField(_tableId, _keyTuple, 5);
+    return (bytes(_blob));
+  }
+
+  /** Get solution (using the specified store) */
+  function getSolution(IStore _store, bytes32 key) internal view returns (bytes memory solution) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = bytes32((key));
+
+    bytes memory _blob = _store.getField(_tableId, _keyTuple, 5);
+    return (bytes(_blob));
+  }
+
+  /** Set solution */
+  function setSolution(bytes32 key, bytes memory solution) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = bytes32((key));
+
+    StoreSwitch.setField(_tableId, _keyTuple, 5, bytes((solution)));
+  }
+
+  /** Set solution (using the specified store) */
+  function setSolution(IStore _store, bytes32 key, bytes memory solution) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = bytes32((key));
+
+    _store.setField(_tableId, _keyTuple, 5, bytes((solution)));
+  }
+
+  /** Get the length of solution */
+  function lengthSolution(bytes32 key) internal view returns (uint256) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = bytes32((key));
+
+    uint256 _byteLength = StoreSwitch.getFieldLength(_tableId, _keyTuple, 5, getSchema());
+    return _byteLength / 1;
+  }
+
+  /** Get the length of solution (using the specified store) */
+  function lengthSolution(IStore _store, bytes32 key) internal view returns (uint256) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = bytes32((key));
+
+    uint256 _byteLength = _store.getFieldLength(_tableId, _keyTuple, 5, getSchema());
+    return _byteLength / 1;
+  }
+
+  /** Get an item of solution (unchecked, returns invalid data if index overflows) */
+  function getItemSolution(bytes32 key, uint256 _index) internal view returns (bytes memory) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = bytes32((key));
+
+    bytes memory _blob = StoreSwitch.getFieldSlice(_tableId, _keyTuple, 5, getSchema(), _index * 1, (_index + 1) * 1);
+    return (bytes(_blob));
+  }
+
+  /** Get an item of solution (using the specified store) (unchecked, returns invalid data if index overflows) */
+  function getItemSolution(IStore _store, bytes32 key, uint256 _index) internal view returns (bytes memory) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = bytes32((key));
+
+    bytes memory _blob = _store.getFieldSlice(_tableId, _keyTuple, 5, getSchema(), _index * 1, (_index + 1) * 1);
+    return (bytes(_blob));
+  }
+
+  /** Push a slice to solution */
+  function pushSolution(bytes32 key, bytes memory _slice) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = bytes32((key));
+
+    StoreSwitch.pushToField(_tableId, _keyTuple, 5, bytes((_slice)));
+  }
+
+  /** Push a slice to solution (using the specified store) */
+  function pushSolution(IStore _store, bytes32 key, bytes memory _slice) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = bytes32((key));
+
+    _store.pushToField(_tableId, _keyTuple, 5, bytes((_slice)));
+  }
+
+  /** Pop a slice from solution */
+  function popSolution(bytes32 key) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = bytes32((key));
+
+    StoreSwitch.popFromField(_tableId, _keyTuple, 5, 1);
+  }
+
+  /** Pop a slice from solution (using the specified store) */
+  function popSolution(IStore _store, bytes32 key) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = bytes32((key));
+
+    _store.popFromField(_tableId, _keyTuple, 5, 1);
+  }
+
+  /** Update a slice of solution at `_index` */
+  function updateSolution(bytes32 key, uint256 _index, bytes memory _slice) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = bytes32((key));
+
+    StoreSwitch.updateInField(_tableId, _keyTuple, 5, _index * 1, bytes((_slice)));
+  }
+
+  /** Update a slice of solution (using the specified store) at `_index` */
+  function updateSolution(IStore _store, bytes32 key, uint256 _index, bytes memory _slice) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = bytes32((key));
+
+    _store.updateInField(_tableId, _keyTuple, 5, _index * 1, bytes((_slice)));
   }
 
   /** Get the full data */
@@ -395,12 +395,12 @@ library Hangman {
     bytes32 key,
     bytes32 owner,
     uint32 maxAttempts,
-    bytes memory solution,
     bytes32 winner,
     uint32 unknown,
-    uint32 known
+    uint32 known,
+    bytes memory solution
   ) internal {
-    bytes memory _data = encode(owner, maxAttempts, solution, winner, unknown, known);
+    bytes memory _data = encode(owner, maxAttempts, winner, unknown, known, solution);
 
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((key));
@@ -414,12 +414,12 @@ library Hangman {
     bytes32 key,
     bytes32 owner,
     uint32 maxAttempts,
-    bytes memory solution,
     bytes32 winner,
     uint32 unknown,
-    uint32 known
+    uint32 known,
+    bytes memory solution
   ) internal {
-    bytes memory _data = encode(owner, maxAttempts, solution, winner, unknown, known);
+    bytes memory _data = encode(owner, maxAttempts, winner, unknown, known, solution);
 
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((key));
@@ -429,12 +429,12 @@ library Hangman {
 
   /** Set the full data using the data struct */
   function set(bytes32 key, HangmanData memory _table) internal {
-    set(key, _table.owner, _table.maxAttempts, _table.solution, _table.winner, _table.unknown, _table.known);
+    set(key, _table.owner, _table.maxAttempts, _table.winner, _table.unknown, _table.known, _table.solution);
   }
 
   /** Set the full data using the data struct (using the specified store) */
   function set(IStore _store, bytes32 key, HangmanData memory _table) internal {
-    set(_store, key, _table.owner, _table.maxAttempts, _table.solution, _table.winner, _table.unknown, _table.known);
+    set(_store, key, _table.owner, _table.maxAttempts, _table.winner, _table.unknown, _table.known, _table.solution);
   }
 
   /** Decode the tightly packed blob using this table's schema */
@@ -468,10 +468,10 @@ library Hangman {
   function encode(
     bytes32 owner,
     uint32 maxAttempts,
-    bytes memory solution,
     bytes32 winner,
     uint32 unknown,
-    uint32 known
+    uint32 known,
+    bytes memory solution
   ) internal view returns (bytes memory) {
     uint40[] memory _counters = new uint40[](1);
     _counters[0] = uint40(bytes(solution).length);

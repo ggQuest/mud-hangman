@@ -27,25 +27,10 @@ export function defineContractComponents(world: World) {
         {
           owner: RecsType.String,
           maxAttempts: RecsType.Number,
-          solution: RecsType.String,
           winner: RecsType.String,
           unknown: RecsType.Number,
           known: RecsType.Number,
-        },
-        {
-          metadata: {
-            contractId: tableId.toHexString(),
-            tableId: tableId.toString(),
-          },
-        }
-      );
-    })(),
-    CurrentAttempts: (() => {
-      const tableId = new TableId("", "CurrentAttempts");
-      return defineComponent(
-        world,
-        {
-          value: RecsType.Number,
+          solution: RecsType.String,
         },
         {
           metadata: {
@@ -76,21 +61,6 @@ export function defineContractComponents(world: World) {
         world,
         {
           value1: RecsType.String,
-        },
-        {
-          metadata: {
-            contractId: tableId.toHexString(),
-            tableId: tableId.toString(),
-          },
-        }
-      );
-    })(),
-    Score: (() => {
-      const tableId = new TableId("", "Score");
-      return defineComponent(
-        world,
-        {
-          value: RecsType.Number,
         },
         {
           metadata: {

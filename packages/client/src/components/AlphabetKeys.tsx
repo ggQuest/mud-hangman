@@ -7,8 +7,8 @@ interface AlphabetKeysProps {
   setLives: React.Dispatch<React.SetStateAction<number>>;
   inputs: string[];
   setInputs: React.Dispatch<React.SetStateAction<string[]>>;
-  randomWord: string[];
-  getRandomWord: () => void;
+  randomWord?: string[];
+  getRandomWord?: () => void;
   setScore: React.Dispatch<React.SetStateAction<number>>;
 }
 
