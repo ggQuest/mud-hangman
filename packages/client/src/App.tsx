@@ -1,10 +1,10 @@
 import { useComponentValue } from "@latticexyz/react";
+import { useState } from "react";
 import { useMUD } from "./MUDContext";
 import { blockchainWords } from "./blockchainWords.json";
-import { useState } from "react";
-import { HiddenWord } from "./components/HiddenWord";
 import { AlphabetKeys } from "./components/AlphabetKeys";
 import { Hangman } from "./components/Hangman";
+import { HiddenWord } from "./components/HiddenWord";
 
 export const App = () => {
   const {
@@ -20,7 +20,8 @@ export const App = () => {
   const [randomWord, setRandomWord] = useState([""]);
   const [inputs, setInputs] = useState([""]);
   const [lives, setLives] = useState(0);
-
+  
+  // TODO: onchain with Chainlink
   const getRandomWord = () => {
     const randomIndex = Math.floor(Math.random() * blockchainWords.length);
     const randomWord = blockchainWords[randomIndex].split("");
