@@ -22,15 +22,18 @@ export const OneKey: React.FC<OneKeyProps> = ({
   getrandomWord,
   setscore,
 }) => {
-  const [keyColor, setKeyColor] = useState("white");
-  const [letterColor, setLetterColor] = useState("");
+  const [isClicked, setIsClicked] = useState(false);
+  const [isCorrectGuess, setIsCorrectGuess] = useState(false);
+
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
 
     console.log("lives: ", lives);
 
     if (inputs.some((input) => input === " _ ") && lives < 7) {
+      setIsClicked(true);
       if (randomWord.some((randomLetter) => randomLetter === letter)) {
+        setIsCorrectGuess(true);
         const newInputs = inputs.map((input, index) => {
           if (randomWord[index] === letter) {
             return letter;
@@ -38,26 +41,26 @@ export const OneKey: React.FC<OneKeyProps> = ({
             return input;
           }
         });
-        //set the key color yellow
-        setKeyColor("green");
+
         setInputs(newInputs);
       } else {
-        //set the key color red
-        setKeyColor("red");
+        setIsCorrectGuess(false);
         setLives(lives + 1);
         console.log("lives: ", lives);
       }
     }
-    setLetterColor("white");
   };
 
+  let buttonClass =
+    "btn btn-outline btn-primary btn-sm m-1 font-bold shadow-lg";
+  if (isClicked) {
+    buttonClass = isCorrectGuess
+      ? "btn btn-success btn-sm m-1 font-bold shadow-lg"
+      : "btn btn-error btn-sm m-1 font-bold shadow-lg";
+  }
   return (
     <span>
-      <button
-        className="btn btn-outline btn-primary btn-sm m-1 font-bold shadow-lg"
-        style={{ backgroundColor: keyColor, color: letterColor }}
-        onClick={handleClick}
-      >
+      <button className={buttonClass} onClick={handleClick}>
         {letter}
       </button>
     </span>

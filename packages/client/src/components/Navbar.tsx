@@ -15,7 +15,7 @@ export const Navbar: React.FC<NavbarProps> = ({ score }) => {
         <div className="flex-none">
           <ul className="menu menu-horizontal px-1">
             <li>
-              <a className=" font-bold">score: {score}</a>
+              <a className=" font-bold text-xl">score: {score}</a>
             </li>
           </ul>
         </div>
