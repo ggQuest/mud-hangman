@@ -14,7 +14,7 @@ export const HiddenWord: React.FC<HiddenWordProps> = ({
       <p className=" text-xl my-5 font-medium">Guess the word 😉</p>
       <div className="text-5xl font-extrabold">
         {inputs.map((input, index) => (
-          <span key={index}>{input.toUpperCase()}</span>
+          <span key={index}>{input}</span>
         ))}
       </div>
     </div>

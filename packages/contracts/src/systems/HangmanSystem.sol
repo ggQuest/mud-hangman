@@ -1,0 +1,134 @@
+
+// SPDX-License-Identifier: MIT
+pragma solidity >=0.8.0;
+
+import { System } from "@latticexyz/world/src/System.sol";
+import { Counter } from "../codegen/Tables.sol";
+
+import {Hangman, HangmanData, UsedLetters, KnownLetters} from "../codegen/Tables.sol";
+import {addressToEntity} from "../Utils.sol";
+import {getUniqueEntity} from "@latticexyz/world/src/modules/uniqueentity/getUniqueEntity.sol";
+
+contract HangmanSystem is System {
+    event partyWon();
+    event partyLost();
+
+    mapping(bytes32 => uint32) currentAttempts;
+    mapping(bytes32 => uint32) scores;
+
+    bytes32 storage_id;
+    // setting the attemps and solution in private 
+    function setGame(uint32 _maxAttempts) public returns (bytes32 id){
+        //require(_msgSender() == address(0x0), "Not Creator of the game");
+        bytes32 owner = addressToEntity(_msgSender());
+        id = getUniqueEntity();
+        storage_id = id;
+        bytes memory _solution = "blockchain"; // TODO: gen randomly a word
+        Hangman.set(id, HangmanData({
+            owner: owner,
+            maxAttempts: _maxAttempts,
+            solution: _solution,
+            winner: owner, // by default
+            unknown: uint32(_solution.length), //how many letters arent found
+            known: 0
+        }));
+        return id;
+    }
+
+
+        // check if letter has been already used and if no then check if it exists in the word
+        // returns number of positions if the letter is found in the word
+    function guessLetter(bytes1 letter) public returns(uint) {
+        bytes32 owner = addressToEntity(_msgSender());
+        uint32 val = currentAttempts[owner];
+        uint32 maxAttempts = Hangman.getMaxAttempts(storage_id);
+        require(val <= maxAttempts, "You wasted all your lives !");
+
+        bool isUsed = UsedLetters.get(storage_id, letter);
+        require(!isUsed, "letter already used");
+
+        bytes memory solution = Hangman.getSolution(storage_id);
+
+        uint32 positions = 0;
+        bool exists = false;
+        uint j = 0;
+        //check if it exists
+        for (uint32 m = 0; m < solution.length;) {
+            if (solution[m] == letter) {
+                //if they got a character correct
+                KnownLetters.set(storage_id, m, letter);
+                uint32 known = Hangman.getKnown(storage_id);
+                Hangman.setKnown(storage_id, known + 1);
+                exists = true;
+                unchecked {
+                    ++positions;
+                    ++j;
+                }
+            }
+            unchecked {
+                ++m;
+            }
+        }
+        if(!exists) {
+            // case where the letter doesnt exist in the word;
+            uint32 newValue = val + 1;
+            currentAttempts[owner] = newValue;
+            if(newValue >= maxAttempts) {
+                emit partyLost();
+            }
+            return 0;
+        }
+        
+        //check if the word has been found thus finshing the party
+        uint32 sizeUnknown = Hangman.getUnknown(storage_id);
+        uint32 sizeKnown = Hangman.getKnown(storage_id);
+        Hangman.setUnknown(storage_id, sizeUnknown - positions);
+        if(sizeUnknown - sizeKnown == 0) {
+            uint32 score = scores[owner];
+            scores[owner] = score + 1;
+            emit partyWon();
+        }
+
+        UsedLetters.set(storage_id, letter, true);
+
+        return positions;
+        
+    }
+
+    function guessWord(bytes memory word) public {
+        
+    }
+
+    function getKnownLetters() public view returns (bytes1[] memory) {
+        bytes memory solution = Hangman.getSolution(storage_id);
+        uint length = solution.length;
+        bytes1[] memory ret = new bytes1[](length);
+        for(uint32 i=0; i<length;) {
+            bytes1 letter = KnownLetters.get(storage_id, i);
+            ret[i] = letter;
+            unchecked {
+                ++i;
+            }
+        }
+        return ret;
+    }
+    
+    function getSolutionLength(bytes32 gameId) external view returns (uint) {
+        bytes32 sender = addressToEntity(_msgSender());
+        require(sender==Hangman.getOwner(gameId), "Unauthorized");
+        bytes memory sol = Hangman.getSolution(gameId);
+        return sol.length;
+    }
+
+    function getCurrentAttempts() external view returns (uint) {
+        bytes32 sender = addressToEntity(_msgSender());
+        return currentAttempts[sender];
+    }
+
+    function getCurrentScore() external view returns (uint) {
+        bytes32 sender = addressToEntity(_msgSender());
+        return scores[sender];
+    }
+
+
+}
