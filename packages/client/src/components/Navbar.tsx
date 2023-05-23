@@ -1,11 +1,18 @@
-import exp from "constants";
 import React from "react";
+import { useEffect } from "react";
 
 interface NavbarProps {
   score: number;
+  lives: number;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ score }) => {
+export const Navbar: React.FC<NavbarProps> = ({ score, lives }) => {
+  let displayLives = 7 - lives;
+
+  useEffect(() => {
+    console.log("lives:", lives);
+    console.log("displayLives:", displayLives);
+  }, [lives, displayLives]);
   return (
     <div>
       <div className="navbar bg-neutral text-neutral-content">
@@ -14,6 +21,9 @@ export const Navbar: React.FC<NavbarProps> = ({ score }) => {
         </div>
         <div className="flex-none">
           <ul className="menu menu-horizontal px-1">
+            <li>
+              <a className=" font-bold text-xl">lives: {displayLives}</a>
+            </li>
             <li>
               <a className=" font-bold text-xl">score: {score}</a>
             </li>

@@ -25,6 +25,12 @@ export const App = () => {
   const [resetKey, setResetKey] = useState(0);
   const [score, setScore] = useState(0);
 
+  const newGame = () => {
+    getRandomWord();
+    setLives(0);
+    setScore(0);
+  };
+
   const getRandomWord = () => {
     const randomIndex = Math.floor(Math.random() * blockchainWords.length);
     const randomWord = blockchainWords[randomIndex].toLowerCase().split("");
@@ -58,15 +64,15 @@ export const App = () => {
         Increment
       </button> */}
       <div className="h-screen overflow-hidden">
-        <Navbar score={score} />
+        <Navbar score={score} lives={lives} />
         <div className="hero h-screen bg-base-200 ">
           <div className="hero-content text-center p-0">
             <div className="max-w-md">
               <button
                 className="btn btn-primary mb-5 shadow-lg"
-                onClick={getRandomWord}
+                onClick={newGame}
               >
-                New Word
+                New Game
               </button>
               <AlphabetKeys
                 key={resetKey}

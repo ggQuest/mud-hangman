@@ -27,10 +27,7 @@ export const OneKey: React.FC<OneKeyProps> = ({
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-
-    console.log("lives: ", lives);
-
-    if (inputs.some((input) => input === " _ ") && lives < 7) {
+    if (inputs.some((input) => input === " _ ") && lives < 7 && !isClicked) {
       setIsClicked(true);
       if (randomWord.some((randomLetter) => randomLetter === letter)) {
         setIsCorrectGuess(true);
@@ -44,13 +41,13 @@ export const OneKey: React.FC<OneKeyProps> = ({
 
         setInputs(newInputs);
         if (!newInputs.includes(" _ ")) {
+          //call function guessWord
           setScore((score) => score + 1);
           getRandomWord();
         }
       } else {
         setIsCorrectGuess(false);
         setLives(lives + 1);
-        console.log("lives: ", lives);
       }
     }
   };
