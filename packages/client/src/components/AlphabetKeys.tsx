@@ -33,6 +33,8 @@ export const AlphabetKeys: React.FC<AlphabetKeysProps> = ({
           inputs={inputs}
           setInputs={setInputs}
           randomWord={randomWord}
+          getRandomWord={getRandomWord}
+          setScore={setScore}
         />
       ))}
     </div>
