@@ -3,6 +3,10 @@ lockfileVersion: '6.0'
 importers:
 
   .:
+    dependencies:
+      '@latticexyz/world':
+        specifier: 2.0.0-alpha.1.183+07a99974
+        version: 2.0.0-alpha.1.183(typescript@4.9.5)
     devDependencies:
       '@latticexyz/cli':
         specifier: 2.0.0-alpha.1.183+07a99974

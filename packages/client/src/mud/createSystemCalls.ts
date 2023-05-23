@@ -1,21 +1,58 @@
-import { getComponentValue } from "@latticexyz/recs";
 import { awaitStreamValue } from "@latticexyz/utils";
 import { ClientComponents } from "./createClientComponents";
 import { SetupNetworkResult } from "./setupNetwork";
 
 export type SystemCalls = ReturnType<typeof createSystemCalls>;
 
+const entityToBytes32 = (entity: string) => {
+  return '0x' + entity.replace("0x", "").padStart(64,"0");
+}
 export function createSystemCalls(
   { worldSend, txReduced$, singletonEntity }: SetupNetworkResult,
-  { Counter }: ClientComponents
+  components: ClientComponents
 ) {
-  const increment = async () => {
-    const tx = await worldSend("increment", []);
+
+  // only our server can call it to set up the game
+  const setGame = async (maxAttempts: number) => {
+    const tx = await worldSend("setGame", [maxAttempts]);
     await awaitStreamValue(txReduced$, (txHash) => txHash === tx.hash);
-    return getComponentValue(Counter, singletonEntity);
-  };
+  }
+  const guessLetter = async (letter: string) => {
+    const tx = await worldSend("guessLetter", [letter]);
+    await awaitStreamValue(txReduced$, (txHash) => txHash === tx.hash);
+  }
+
+  const guessWord = async (word: string) => {
+    const tx = await worldSend("guessWord", [word]);
+    await awaitStreamValue(txReduced$, (txHash) => txHash === tx.hash);
+  }
+
+  const getSolutionLength = async (id: string) => {
+    const tx = await worldSend("getSolutionLength", [entityToBytes32(id)]);
+    //return tx.;
+  }
+  
+  const getKnownLetters = async () => {
+    const tx = await worldSend("getUsedLetters", []);
+    //return tx.;
+  }
+
 
   return {
-    increment,
+    guessLetter,
+    guessWord,
+    getSolutionLength,
+    getKnownLetters,
+    setGame
   };
 }
+
+
+
+
+
+
+
+
+
+

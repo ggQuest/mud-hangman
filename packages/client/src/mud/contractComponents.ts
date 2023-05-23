@@ -20,5 +20,85 @@ export function defineContractComponents(world: World) {
         }
       );
     })(),
+    Hangman: (() => {
+      const tableId = new TableId("", "Hangman");
+      return defineComponent(
+        world,
+        {
+          owner: RecsType.String,
+          maxAttempts: RecsType.Number,
+          solution: RecsType.String,
+          winner: RecsType.String,
+          unknown: RecsType.Number,
+          known: RecsType.Number,
+        },
+        {
+          metadata: {
+            contractId: tableId.toHexString(),
+            tableId: tableId.toString(),
+          },
+        }
+      );
+    })(),
+    CurrentAttempts: (() => {
+      const tableId = new TableId("", "CurrentAttempts");
+      return defineComponent(
+        world,
+        {
+          value: RecsType.Number,
+        },
+        {
+          metadata: {
+            contractId: tableId.toHexString(),
+            tableId: tableId.toString(),
+          },
+        }
+      );
+    })(),
+    UsedLetters: (() => {
+      const tableId = new TableId("", "UsedLetters");
+      return defineComponent(
+        world,
+        {
+          value1: RecsType.Boolean,
+        },
+        {
+          metadata: {
+            contractId: tableId.toHexString(),
+            tableId: tableId.toString(),
+          },
+        }
+      );
+    })(),
+    KnownLetters: (() => {
+      const tableId = new TableId("", "KnownLetters");
+      return defineComponent(
+        world,
+        {
+          value1: RecsType.String,
+        },
+        {
+          metadata: {
+            contractId: tableId.toHexString(),
+            tableId: tableId.toString(),
+          },
+        }
+      );
+    })(),
+    Score: (() => {
+      const tableId = new TableId("", "Score");
+      return defineComponent(
+        world,
+        {
+          value: RecsType.Number,
+        },
+        {
+          metadata: {
+            contractId: tableId.toHexString(),
+            tableId: tableId.toString(),
+          },
+        }
+      );
+    })(),
   };
 }
