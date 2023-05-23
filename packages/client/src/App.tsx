@@ -75,7 +75,7 @@ export const App = () => {
       </button> */}
       <div className="h-screen overflow-hidden">
         <Navbar score={score} lives={lives} />
-        <div className="hero h-screen bg-base-200 ">
+        <div className="hero h-screen bg-base-200 py-2">
           <div className="hero-content text-center p-0">
             <div className="max-w-md">
               <button
