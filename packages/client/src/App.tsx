@@ -24,12 +24,19 @@ export const App = () => {
   const [lives, setLives] = useState(0);
   const [resetKey, setResetKey] = useState(0);
   const [score, setScore] = useState(0);
+  const [gameOver, setGameOver] = useState(false);
 
   const newGame = () => {
     getRandomWord();
     setLives(0);
     setScore(0);
   };
+
+  useEffect(() => {
+    if (lives >= 7) {
+      setGameOver(true);
+    }
+  }, [lives]);
 
   const getRandomWord = () => {
     const randomIndex = Math.floor(Math.random() * blockchainWords.length);
@@ -38,6 +45,7 @@ export const App = () => {
     clearInputs(randomWord);
     setResetKey(resetKey + 1);
     setLives(0);
+    setGameOver(false);
     console.log("randomWord: ", randomWord);
   };
   useEffect(() => {
