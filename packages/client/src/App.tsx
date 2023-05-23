@@ -6,6 +6,7 @@ import { HiddenWord } from "./components/HiddenWord";
 import { AlphabetKeys } from "./components/AlphabetKeys";
 import { Hangman } from "./components/Hangman";
 import { Navbar } from "./components/Navbar";
+import { GameOverModal } from "./components/GameOverModal";
 
 export const App = () => {
   // const {
@@ -30,6 +31,7 @@ export const App = () => {
     getRandomWord();
     setLives(0);
     setScore(0);
+    setGameOver(false);
   };
 
   useEffect(() => {
@@ -82,6 +84,7 @@ export const App = () => {
               >
                 New Game
               </button>
+              <GameOverModal gameOver={gameOver} newGame={newGame} />
               <AlphabetKeys
                 key={resetKey}
                 alphaBet={alphaBet}
